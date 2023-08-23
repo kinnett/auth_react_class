@@ -49,28 +49,16 @@ export const msalConfig = {
     }
 };
 
-const msalInstance = new PublicClientApplication(msalConfig);
-
-const root = ReactDOM.createRoot(document.getElementById('root'));
-
-root.render(
-    <React.StrictMode>
-        <MsalProvider instance={msalInstance}>
-            <App />
-        </MsalProvider>
-    </React.StrictMode>
-);
-
 class ProfileContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             graphData: null
         };
-        this.RequestProfileData = this.RequestProfileData.bind(this);
+        this.requestProfileData = this.requestProfileData.bind(this);
     }
 
-    RequestProfileData() {
+    requestProfileData() {
         const { instance, accounts } = this.props.msalContext;
         instance
             .acquireTokenSilent({
@@ -90,8 +78,8 @@ class ProfileContent extends React.Component {
         const { accounts } = this.props.msalContext;
         return (
             <>
-                <h5 className="card-title">Welcome {accounts[0].name}</h5>
-                <Button variant="secondary" onClick={this.RequestProfileData}>
+                <h5 className="card-title">Welcome {accounts[0]?.name}</h5>
+                <Button variant="secondary" onClick={this.requestProfileData}>
                     Request Profile Information
                 </Button>
                 {this.state.graphData ? (
@@ -254,5 +242,14 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const msalInstance = new PublicClientApplication(msalConfig);
 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+root.render(
+    <React.StrictMode>
+        <MsalProvider instance={msalInstance}>
+            <App />
+        </MsalProvider>
+    </React.StrictMode>
+);
