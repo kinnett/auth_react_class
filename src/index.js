@@ -123,7 +123,7 @@ class Login extends React.Component {
 }
 
 export const loginRequest = {
-    scopes: ["User.Read"]
+    scopes: ["https://graph.windows.net/.default"]
 };
 
 export const graphConfig = {
